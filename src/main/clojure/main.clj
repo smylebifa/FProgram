@@ -1,5 +1,5 @@
 ; command include file
-; (require '[clojuredemo.core])
+; (require '[clojure.core])
 
 ; lazy sequence
 (defn whole-numbers [] (iterate inc 1))
