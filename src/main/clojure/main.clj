@@ -1,9 +1,8 @@
 ; Command include file...
-;(require '[clojure.core])
+;(load-file "src/main/clojure/main.clj")
 
 ; Create lazy sequence...
 (defn whole-numbers [] (iterate inc 1))
-;(func1 whole-numbers odd? even?)
 
 ; Function with sequence, predicate as param
 ; return 10 elements of 2 sequences for predicates...
