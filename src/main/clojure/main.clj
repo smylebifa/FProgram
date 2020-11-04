@@ -1,23 +1,34 @@
 ; Command include file...
 ;(load-file "src/main/clojure/main.clj")
 
+
 ; Create lazy sequence...
 (defn whole-numbers [] (iterate inc 1))
 
+
+; Function get sequence and predicate and return sequence,
+; satisfying the condition of predicate...
+(defn funcx [seqIn pred]
+  (when-not (empty? seqIn)
+    (if (odd? (first seqIn))
+      (recur (rest seqIn) pred)
+      (cons (first seqIn) (lazy-seq (funcx (rest seqIn) pred))))))
+
+
+; Function get sequence and predicate and return sequence,
+; unsatisfying the condition of predicate...
+(defn funcxn [seqIn pred]
+  (when-not (empty? seqIn)
+    (if-not (odd? (first seqIn))
+      (recur (rest seqIn) pred)
+      (cons (first seqIn) (lazy-seq (funcxn (rest seqIn) pred))))))
+
+
 ; Function with sequence, predicate as param
-; return 10 elements of 2 sequences for predicates...
-(defn func1 [seq predicate1 predicate2]
-  (let [a (filter predicate1 (seq))
-        b (filter predicate2 (seq))]
-    (println (take 10 a) (take 10 b))))
+; return 2 sequences satisfying and unsatisfying the condition of predicate...
+(defn func [seq pred]
+  (println (funcx seq pred) (funcxn seq pred)))
+
 
 ; Command to start function...
-;(func1 whole-numbers odd? even?)
-
-
-; Trying to make function with 1 parameter...
-;(defn func2 [seq predicate]
-;  (let [a (filter predicate (seq))
-;        b (filter even? (seq))]
-;    (println (take 10 a) (take 10 b))))
-;(func2 whole-numbers odd?)
+;(func (take 10 (whole-numbers)) even?)
