@@ -1,34 +1,17 @@
 ; Command include file...
 ;(load-file "src/main/clojure/main.clj")
 
-
 ; Create lazy sequence...
-(defn whole-numbers [] (iterate inc 1))
+(defn whole-numbers [] (iterate inc 0))
 
+; Function get sequence and predicate
+; and return 2 sequence - satisfying and unsatisfying the condition of predicate...
+(defn separate [seq pred]
+  (let [a (filter pred (seq))
+        b (filter (complement pred) (seq))]
+    [a b]))
 
-; Function get sequence and predicate and return sequence,
-; satisfying the condition of predicate...
-(defn funcx [seqIn pred]
-  (when-not (empty? seqIn)
-    (if (odd? (first seqIn))
-      (recur (rest seqIn) pred)
-      (cons (first seqIn) (lazy-seq (funcx (rest seqIn) pred))))))
-
-
-; Function get sequence and predicate and return sequence,
-; unsatisfying the condition of predicate...
-(defn funcxn [seqIn pred]
-  (when-not (empty? seqIn)
-    (if-not (odd? (first seqIn))
-      (recur (rest seqIn) pred)
-      (cons (first seqIn) (lazy-seq (funcxn (rest seqIn) pred))))))
-
-
-; Function with sequence, predicate as param
-; return 2 sequences satisfying and unsatisfying the condition of predicate...
-(defn func [seq pred]
-  (println (funcx seq pred) (funcxn seq pred)))
-
-
-; Command to start function...
-;(func (take 10 (whole-numbers)) even?)
+; Testing function...
+;(take 10 (first(separate whole-numbers even?)))
+;(take 10 (last(separate whole-numbers even?)))
+;(reduce + (take 10 (last (separate whole-numbers even?))))
